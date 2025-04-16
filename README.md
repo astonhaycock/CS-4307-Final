@@ -34,10 +34,16 @@ Our project is a comprehensive class scheduling platform tailored specifically f
 
 ## Sample Queries:
 - Optimal path to graduate with you degree
-- Finding bottlenecks(classes that hold people back)
+- Finding bottlenecks(classes that hold people back) link to the prerequisites
 - classes that transfer over from major to major  
 - distance between all of your classes you have to walk (building to building) 
 - student availability where they put in a time in the front end when the student can take classes and returns the classes you can take on those days
 
-
+##Web App: 
+- Graph of student classes with the prerequisites branches out
+- Student will be able to input their availability
+- Page explaining show the query text
+- daily distance walking for classes
+- Displaying our queries to the user
+- bottleneck display
 ---
