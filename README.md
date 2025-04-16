@@ -28,7 +28,7 @@ Our project is a comprehensive class scheduling platform tailored specifically f
 ## Computing Resources:
 - **Database:** AWS RDS  
 - **Backend:** Self-hosted  
-- **Frontend:** Potentially self-hosted (depending on requirements and resources)  
+- **Frontend:** Self-hosted
 
 ---
 
