@@ -20,8 +20,8 @@ Our project is a comprehensive class scheduling platform tailored specifically f
 ---
 
 ## Data Sources:
-- **Primary Data:** Web scraping from the official Utah Tech University website  
-- **Additional Data:** AI-generated insights for optimized routes and recommendations  
+- **Primary Data:** We were going to scrape the data but remembered about all the data from our past assignment 
+- **Additional Data:** AI-generated additional data (fake students)
 
 ---
 
@@ -33,13 +33,11 @@ Our project is a comprehensive class scheduling platform tailored specifically f
 ---
 
 ## Sample Queries:
-- Retrieve class schedules based on student ID  
-- Query available classes filtered by major or semester  
-- Calculate the most efficient routes between class locations  
-- Analyze and report grade trends per class or instructor  
-- Recommend class combinations based on student's major and historical data  
+- Optimal path to graduate with you degree
+-Finding bottlenecks(classes that hold people back)
+-classes that transfer over from major to major  
+-distance between all of your classes you have to walk (building to building) 
+-student availability where they put in a time in the front end when the student can take classes and returns the classes you can take on those days
+
 
 ---
-
-## Goals:
-The goal of this presentation is to **confirm the viability** of our approach and **collect feedback from peers** to enhance the overall quality and functionality of our project.
