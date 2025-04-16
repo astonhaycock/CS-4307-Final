@@ -34,10 +34,10 @@ Our project is a comprehensive class scheduling platform tailored specifically f
 
 ## Sample Queries:
 - Optimal path to graduate with you degree
--Finding bottlenecks(classes that hold people back)
--classes that transfer over from major to major  
--distance between all of your classes you have to walk (building to building) 
--student availability where they put in a time in the front end when the student can take classes and returns the classes you can take on those days
+- Finding bottlenecks(classes that hold people back)
+- classes that transfer over from major to major  
+- distance between all of your classes you have to walk (building to building) 
+- student availability where they put in a time in the front end when the student can take classes and returns the classes you can take on those days
 
 
 ---
