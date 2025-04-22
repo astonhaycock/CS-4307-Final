@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Create a connection pool to your RDS instance
-const pool = mysql.createPool({
+const db = mysql.createPool({
   host: process.env.DB_HOST,       // e.g. mydb.abcdefg12345.us-west-2.rds.amazonaws.com
   user: process.env.DB_USER,       // your DB username
   password: process.env.DB_PASSWORD, // your DB password
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 // Example: GET all users
 app.get('/users', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM users');
+    const [rows] = await db.query('SELECT * FROM users');
     res.json(rows);
   } catch (err) {
     console.error('DB query error:', err);
@@ -50,7 +50,7 @@ app.get('/create-table', async (req, res) => {
         email VARCHAR(255) NOT NULL UNIQUE
       )
     `;
-    await pool.query(createTableQuery);
+    await db.query(createTableQuery);
     res.send('Users table created or already exists.');
   } catch (err) {
     console.error('DB create table error:', err);
@@ -63,7 +63,7 @@ app.get('/create-table', async (req, res) => {
 app.post('/users', async (req, res) => {
   const { name, email } = req.body;
   try {
-    const [result] = await pool.execute(
+    const [result] = await db.execute(
       'INSERT INTO users (name, email) VALUES (?, ?)',
       [name, email]
     );
