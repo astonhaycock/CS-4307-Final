@@ -1,0 +1,22 @@
+{
+  "name": "cs-4307-final",
+  "version": "1.0.0",
+  "description": "## Group Members: - Aston Haycock   - Austin Espinoza   - Bryan Rosales",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astonhaycock/CS-4307-Final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/astonhaycock/CS-4307-Final/issues"
+  },
+  "homepage": "https://github.com/astonhaycock/CS-4307-Final#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
