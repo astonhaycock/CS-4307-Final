@@ -43,6 +43,7 @@ async function getAllStudents() {
 }
 
 
+
 async function getStudentById(studentId) {
   const [rows] = await pool.query(
     `SELECT
@@ -308,6 +309,67 @@ async function getCourseById(id) {
 }
 
 // Route handlers remain unchanged
+
+app.get('/api/majors/:majorId/bottlenecks', async (req, res) => {
+  const { majorId } = req.params;
+
+  const sql = `
+    WITH
+      required_courses AS (
+        SELECT course_id
+          FROM db.major_requirements
+         WHERE major_id    = ?
+           AND is_required = 1
+      ),
+      prereq_counts AS (
+        SELECT
+          p.prereq_id   AS bottleneck_course,
+          COUNT(DISTINCT p.course_id) AS total_unlocks
+        FROM db.prerequisites p
+        JOIN required_courses rc
+          ON p.course_id = rc.course_id
+        GROUP BY p.prereq_id
+      ),
+      prereq_cardinalities AS (
+        SELECT
+          course_id,
+          COUNT(*) AS prereq_count
+        FROM db.prerequisites
+        GROUP BY course_id
+      ),
+      multi_unlocks AS (
+        SELECT
+          p.prereq_id   AS bottleneck_course,
+          SUM(CASE WHEN pc.prereq_count > 1 THEN 1 ELSE 0 END) AS multi_unlocks
+        FROM db.prerequisites p
+        JOIN prereq_cardinalities pc
+          ON p.course_id = pc.course_id
+        JOIN required_courses rc
+          ON p.course_id = rc.course_id
+        GROUP BY p.prereq_id
+      )
+    SELECT
+      pc.bottleneck_course,
+      c.course_name,
+      pc.total_unlocks,
+      COALESCE(mu.multi_unlocks, 0) AS multi_unlocks
+    FROM prereq_counts pc
+    JOIN db.courses c
+      ON c.course_id = pc.bottleneck_course
+    LEFT JOIN multi_unlocks mu
+      ON mu.bottleneck_course = pc.bottleneck_course
+    ORDER BY pc.total_unlocks DESC
+  `;
+
+  try {
+    const [rows] = await pool.query(sql, [majorId]);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error fetching bottleneck courses:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 app.get('/api/students', async (req, res) => {
   try {
