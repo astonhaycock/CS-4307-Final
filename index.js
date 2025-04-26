@@ -310,6 +310,45 @@ async function getCourseById(id) {
 
 // Route handlers remain unchanged
 
+app.post('/api/students/:studentId/plan', async (req, res) => {
+  const { studentId } = req.params;
+  const { toggles } = req.body; // e.g. { "CS1400": true, "MATH1210": false }
+
+  try {
+    // 1) Get full degree progress (includes courses & their prerequisites)
+    const progress = await getStudentDegreeProgress(studentId);
+
+    // 2) Build a completed‐courses set incorporating toggles
+    const completedSet = new Set(
+      progress.courses
+        .filter(c => c.status === 'Completed')
+        .map(c => c.course_id)
+    );
+    Object.entries(toggles).forEach(([cid, on]) => {
+      if (on) completedSet.add(cid);
+      else completedSet.delete(cid);
+    });
+
+    // 3) Partition into available vs locked
+    const available = [];
+    const locked = [];
+    for (const course of progress.courses) {
+      if (completedSet.has(course.course_id)) continue;
+      const unmet = (course.prerequisites || [])
+        .filter(p => !completedSet.has(p.prereq_id));
+      unmet.length ? locked.push(course.course_id) : available.push(course.course_id);
+    }
+
+    // 4) Return the scenario result
+    res.json({ available, locked, progress });
+  } catch (err) {
+    console.error('Scenario planning error:', err);
+    res.status(500).json({ error: 'Error computing scenario plan' });
+  }
+});
+
+
+
 app.get('/api/majors/:majorId/bottlenecks', async (req, res) => {
   const { majorId } = req.params;
 
